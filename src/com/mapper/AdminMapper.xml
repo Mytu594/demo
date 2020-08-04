@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.AdminMapper">
+	<!--查所有用户账号信息 -->
+	<select id="selectAdmins" resultType="Admin">
+		select * from admins;
+	</select>
+	<insert id="insertAdmin" parameterType="Admin">
+		insert into admins(id,pwd) values(#{id},#{pwd});
+	</insert>
+	<!-- 按账号查询用户密码  -->
+	<select id="selectPasswordById" parameterType="String" resultType="String">
+		select pwd from admins where id=#{id}
+	</select>
+</mapper>

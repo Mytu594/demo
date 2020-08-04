@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ActMapper">
+	<!--按账号查询用户信息 -->
+	<select id="selectActById" parameterType="String" resultType="Activity">
+		select * from activity where id=#{id};
+	</select>
+	<!-- 按成员查询活动信息  -->
+	<select id="selectActByName" parameterType="String" resultType="Activity">
+		<bind name="name" value="'%'+name+'%'" />
+		select * from activity
+		<where>
+			<if test="name!=null and name!=''">
+				and name like #{name}
+			</if>
+		</where>
+	</select>
+	<!--按所有用户信息 -->
+	<select id="selectActs" resultType="Activity">
+		select * from activity;
+	</select>
+	<insert id="insertAct" parameterType="Activity">
+		insert into activity(id,name,time,credit,belong,type,place,amount,detail,selected) values(#{id},#{name},#{time},#{credit},#{belong},#{type},#{place},#{amount},#{detail},#{selected});
+	</insert>
+	<delete id="deleteActById" parameterType="String">
+		delete from activity where id=#{id};
+	</delete>
+	<update id="updateAct" parameterType="Activity">
+		update activity
+	 	<set>
+		  <if test="name!=null and name!=''">
+		  	name=#{name},
+		  </if>
+		  <if test="time!=null and time!=''">
+		  	time=#{time},
+		  </if>
+		  <if test="credit!=null">
+		  	credit=#{credit},
+		 </if>
+		 <if test="belong!=null and belong!=''">
+		  	belong=#{belong},
+		 </if>
+		 <if test="type!=null and type!=''">
+		  	type=#{type},
+		 </if>
+		 <if test="place!=null and place!=''">
+		  	place=#{place},
+		 </if>
+		 <if test="amount!=null">
+		  	amount=#{amount},
+		 </if>
+		 <if test="detail!=null and detail!=''">
+		  	detail=#{detail},
+		 </if>
+		 <if test="selected!=null">
+		  	selected=#{selected},
+		 </if>
+		</set>
+		where id=#{id};
+	</update>
+</mapper>

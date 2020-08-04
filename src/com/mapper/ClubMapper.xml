@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.ClubMapper">
+	<!--按账号查询协会信息 -->
+	<select id="selectClubById" parameterType="String" resultType="Club">
+		select * from club where id=#{id};
+	</select>
+	<!-- 按成员查询协会信息  -->
+	<select id="selectClubByName" parameterType="String" resultType="Club">
+		<bind name="name" value="'%'+name+'%'" />
+		select * from club
+		<where>
+			<if test="name!=null and name!=''">
+				and name like #{name}
+			</if>
+		</where>
+	</select>
+	<!--按所有用户信息 -->
+	<select id="selectClubs" resultType="Club">
+		select * from club;
+	</select>
+	<insert id="insertClub" parameterType="Club">
+		insert into club(id,name,man,tel) values(#{id},#{name},#{man},#{tel});
+	</insert>
+	<delete id="deleteClubById" parameterType="String">
+		delete from club where id=#{id};
+	</delete>
+	<update id="updateClub" parameterType="Club">
+		update club
+	 	<set>
+		  <if test="name!=null and name!=''">
+		  	name=#{name},
+		  </if>
+		  <if test="man!=null and man!=''">
+		  	man=#{man},
+		  </if>
+		 <if test="tel!=null and tel!=''">
+		  	tel=#{tel},
+		 </if>
+		</set>
+		where id=#{id}
+	</update>
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.MbMapper">
+	<!--按账号查询成员信息 -->
+	<select id="selectMbById" parameterType="String" resultType="Mb">
+		select * from member where id=#{id};
+	</select>
+	<!-- 按户主查询用户信息  -->
+	<select id="selectMbByName" parameterType="String" resultType="Mb">
+		<bind name="name" value="'%'+name+'%'" />
+		select * from member
+		<where>
+			<if test="name!=null and name!=''">
+				and name like #{name}
+			</if>
+		</where>
+	</select>
+	<!--按所有成员信息 -->
+	<select id="selectMbs" resultType="Mb">
+		select * from member;
+	</select>
+	<insert id="insertMb" parameterType="Mb">
+		insert into member(id,name,sex,mbnative,major) values(#{id},#{name},#{sex},#{mbnative},#{major});
+	</insert>
+	<delete id="deleteMbById" parameterType="String">
+		delete from member where id=#{id};
+	</delete>
+	<update id="updateMb" parameterType="Mb">
+		update member
+	 	<set>
+		  <if test="name!=null and name!=''">
+		  	name=#{name},
+		  </if>
+		  <if test="sex!=null and sex!=''">
+		  	sex=#{sex},
+		  </if>
+		  <if test="mbnative!=null and mbnative!=''">
+		  	mbnative=#{mbnative},
+		  </if>
+		  <if test="major!=null and major!=''">
+		  	major=#{major},
+		  </if> 
+		</set>
+		where id=#{id};
+	</update>
+</mapper>
